@@ -13,6 +13,20 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Debug environment
+      run: ls -R
+
     - name: test
       id: test
       uses: classroom-resources/autograding-io-grader@v1
@@ -26,9 +40,14 @@ jobs:
           area = 314.1592653589793
         comparison-method: contains
         timeout: 10
+
+    - name: Debug test results
+      run: echo "${{ steps.test.outputs.result }}"
+
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        TEST_RESULTS: "${{steps.test.outputs.result}}"
+        TEST_RESULTS: "${{ steps.test.outputs.result }}"
       with:
         runners: test
+
