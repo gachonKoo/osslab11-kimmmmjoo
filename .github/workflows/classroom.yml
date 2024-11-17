@@ -13,8 +13,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: Debug file structure
-      run: ls -R
+    - name: Debug tester output
+      run: python tester.py
       
     - name: test
       id: test
